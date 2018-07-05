@@ -1,5 +1,5 @@
 <resources>
-
+    <color name="twitter_blue">#ff1da1f2</color>
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!--
             Theme customizations available in newer API levels can go in
@@ -11,6 +11,7 @@
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="colorPrimary">@color/twitter_blue</item>
     </style>
 
 </resources>
