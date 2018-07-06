@@ -1,6 +1,8 @@
 package com.codepath.apps.restclienttemplate;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Movie;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
@@ -13,14 +15,20 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 
+import org.parceler.Parcels;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> {
 
-    private List<Tweet> mTweets;
+    List<Tweet> mTweets;
+    Context context;
 
     public TweetAdapter(List<Tweet> mTweets, Context context) {
         this.mTweets = mTweets;
@@ -50,8 +58,6 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
     public TweetAdapter(List<Tweet> tweets) {
         mTweets = tweets;
     }
-    Context context;
-
     // for each row, inflate the layout and cache references into ViewHolder
 
     @NonNull
@@ -86,24 +92,41 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
 
     // create ViewHolder class
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView ivProfileImage;
-        public TextView tvUsername;
-        public TextView tvBody;
-        public TextView tvDate;
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        @BindView(R.id.ivProfileImage) public ImageView ivProfileImage;
+        @BindView(R.id.tvUserName) public TextView tvUsername;
+        @BindView(R.id.tvBody) public TextView tvBody;
+        @BindView(R.id.tvDate) public TextView tvDate;
 
         public ViewHolder (View itemView) {
             super (itemView);
+            ButterKnife.bind(this, itemView);
 
-            // perform findViewbyId lookups
-
-            ivProfileImage = (ImageView) itemView.findViewById((R.id.ivProfileImage));
-            tvUsername = (TextView) itemView.findViewById((R.id.tvUserName));
-            tvBody = (TextView) itemView.findViewById(R.id.tvBody);
-            tvDate = itemView.findViewById(R.id.tvDate);
-
+            // add this as the itemView's OnClickListener
+            itemView.setOnClickListener(this);
         }
 
+        @Override
+        public void onClick(View view) {
+            // gets item position
+            int position = getAdapterPosition();
+
+            // make sure the position is valid ie. actually exists in the view
+            if (position != RecyclerView.NO_POSITION) {
+
+                // get the movie at the position
+                Tweet tweet = mTweets.get(position);
+
+                // create intent for the new activity
+                Intent intent = new Intent(context, TweetDetailsActivity.class);
+
+                // serialize the movie using parceler, use short name as key
+                intent.putExtra(Movie.class.getSimpleName(), Parcels.wrap(tweet));
+
+                // show activity
+                context.startActivity(intent);
+            }
+        }
     }
 
     // Clean all elements of the recycler
