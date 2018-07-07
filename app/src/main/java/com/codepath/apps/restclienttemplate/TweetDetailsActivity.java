@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
 
+import org.parceler.Parcel;
 import org.parceler.Parcels;
 import org.w3c.dom.Text;
 
@@ -28,12 +29,17 @@ public class TweetDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_tweet_details);
         ButterKnife.bind(this);
 
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setLogo(R.mipmap.ic_launcher_twitter_round);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         // unwrap the movie passed in via intent, using its simple name as a key
         tweet = (Tweet) Parcels.unwrap(getIntent().getParcelableExtra(Tweet.class.getSimpleName()));
         Log.d("MovieDetailsActivity", String.format("Showing details for '%s'", tweet.getBody()));
 
         // set the title and overview
-        tvBody.setText(tweet.getBody());
-        tvCreatedAt.setText(tweet.getCreatedAt());
+        tvBody.setText(tweet.body);
+        tvCreatedAt.setText(tweet.createdAt);
     }
 }

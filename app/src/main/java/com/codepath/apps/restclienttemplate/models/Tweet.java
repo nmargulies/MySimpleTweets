@@ -3,6 +3,9 @@ package com.codepath.apps.restclienttemplate.models;
 import android.graphics.Movie;
 import android.os.Parcelable;
 
+import com.codepath.apps.restclienttemplate.TwitterApp;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcel;
@@ -15,8 +18,15 @@ public class Tweet {
     public User user;
     public String createdAt;
     public int favoriteCount;
+    public boolean isFavorited;
+    public int retweetCount;
+    public boolean isRetweeted;
 
     public Tweet() {
+    }
+
+    public void toggleFavorite(JsonHttpResponseHandler handler) {
+        favoriteCount += isFavorited ? 1 : -1;
     }
 
     //deserialize the JSON
@@ -28,7 +38,13 @@ public class Tweet {
         tweet.uid = jsonObject.getLong("id");
         tweet.createdAt = jsonObject.getString("created_at");
         tweet.user = User.fromJSON(jsonObject.getJSONObject("user"));
-        tweet.favoriteCount=jsonObject.getInt("favorites_count");
+        tweet.isRetweeted = jsonObject.getBoolean("retweeted");
+        tweet.isFavorited = jsonObject.getBoolean("favorited");
+        Long retweetLong = jsonObject.getLong("retweet_count");
+        tweet.retweetCount = retweetLong.intValue();
+        Long favoriteCount = jsonObject.getLong("favorite_count");
+        tweet.favoriteCount = favoriteCount.intValue();
+
         return tweet;
     }
 
@@ -36,5 +52,8 @@ public class Tweet {
         return body;
     }
     public String getCreatedAt()  { return createdAt; }
+    public  String getUser() { return user.screenName; }
+    public  Integer getFavoriteCount() { return favoriteCount; }
+    public  Integer getRetweetCount() { return retweetCount; }
 
 }

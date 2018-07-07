@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
+import com.codepath.apps.restclienttemplate.models.User;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -45,12 +46,16 @@ public class ComposeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_compose);
         ButterKnife.bind(this);
 
-
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setLogo(R.mipmap.ic_launcher_twitter_round);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         client = TwitterApp.getRestClient(this);
+
+        String replyTo = getIntent().getStringExtra("screenname");
+        if (replyTo != null) {
+            etCompose.append("@" + replyTo + ": ");
+        }
     }
 
     @Override
@@ -62,7 +67,7 @@ public class ComposeActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        String charsLeft = String.format(Locale.US, "%d", 280 - etCompose.getText().toString().length());
+        String charsLeft = String.format(Locale.US, "%d", 140 - etCompose.getText().toString().length());
         char_count.setText(charsLeft);
         return true;
     }

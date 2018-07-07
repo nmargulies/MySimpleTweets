@@ -1,5 +1,8 @@
 <resources>
     <color name="twitter_blue">#ff1da1f2</color>
+    <color name="twitter_red">#ffe0245e</color>
+    <color name="twitter_grey">#ffaab8c2</color>
+
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!--
             Theme customizations available in newer API levels can go in
