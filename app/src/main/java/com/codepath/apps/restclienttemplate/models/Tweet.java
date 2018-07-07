@@ -17,16 +17,16 @@ public class Tweet {
     public long uid; // database ID for the tweet
     public User user;
     public String createdAt;
-    public int favoriteCount;
+    public Integer favoriteCount;
     public boolean isFavorited;
-    public int retweetCount;
+    public Integer retweetCount;
     public boolean isRetweeted;
 
     public Tweet() {
     }
 
     public void toggleFavorite(JsonHttpResponseHandler handler) {
-        favoriteCount += isFavorited ? 1 : -1;
+        favoriteCount += !isFavorited ? 1 : -1;
     }
 
     //deserialize the JSON

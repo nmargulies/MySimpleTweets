@@ -82,8 +82,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                 Tweet tweet = mTweets.get(position);
                 tweet.toggleFavorite(new JsonHttpResponseHandler());
                 viewHolder.buttonFavorite.setImageResource(R.drawable.ic_vector_heart);
-                viewHolder.tvFavoriteCount.setText(tweet.getFavoriteCount());
-
+                viewHolder.tvFavoriteCount.setText(tweet.getFavoriteCount().toString());
             }
         });
 
@@ -92,7 +91,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             public void onClick(View v) {
                 int position = viewHolder.getAdapterPosition();
                 Tweet tweet = mTweets.get(position);
-                viewHolder.tvRetweetCount.setText(tweet.getRetweetCount());
+                viewHolder.tvRetweetCount.setText(tweet.getRetweetCount().toString());
             }
         });
 
@@ -132,6 +131,8 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         holder.tvUsername.setText(tweet.user.name);
         holder.tvBody.setText(tweet.body);
         holder.tvDate.setText(getRelativeTimeAgo(tweet.createdAt));
+        holder.tvFavoriteCount.setText(tweet.favoriteCount.toString());
+        holder.tvRetweetCount.setText(tweet.retweetCount.toString());
         Glide.with(context).load(tweet.user.profileImageUrl).into(holder.ivProfileImage);
     }
 
